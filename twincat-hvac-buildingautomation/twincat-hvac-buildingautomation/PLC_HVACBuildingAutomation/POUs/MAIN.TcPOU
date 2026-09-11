@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{f31c5fc9-3dfd-4f4c-88a0-a72da0f0bca2}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fZoneTemp : REAL := 70.0;  // simulated zone temp, F, starting value
+	fSetpoint : REAL := 72.0; // desired temp
+	fDeadBand : REAL := 1.0;   // +/- tolerance before acting
+	bHeatDemand : BOOL;
+	bCoolDemand : BOOL;
+	fDriftRate : REAL := 0.02; // simulated passive temp drift per scan
+	tSimTimer : TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// simulated passive temperature drift (zone slowly cools toward 65F baseline)
+
+tSimTimer(IN := TRUE, PT := T#1S);
+IF tSimTimer.Q THEN
+	IF bHEatDemand THEN
+		fZoneTemp := fZoneTemp + 0.5;
+	ELSIF bCoolDemand THEN
+		fZoneTemp := fZoneTemp - 0.5;
+	ELSE
+		fZoneTemp := fZoneTemp - fDriftRate; // passive drift toward baseline
+	END_IF
+	tSimTimer(IN := FALSE);
+END_IF
+
+// setpoint / deadband control logic
+IF fZoneTemp < (fSetpoint - fDeadband) THEN
+	bHeatDemand := TRUE;
+	bCoolDemand := FALSE;
+ELSIF fZoneTemp > (fSetpoint + fDeadband) THEN
+	bCoolDemand := TRUE;
+	bHeatDemand := FALSE;
+ELSE
+	bHeatDemand := FALSE;
+	bCoolDemand := FALSE;
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
