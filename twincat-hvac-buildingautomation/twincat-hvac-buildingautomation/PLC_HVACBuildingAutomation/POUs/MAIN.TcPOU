@@ -10,6 +10,10 @@ VAR
 	bCoolDemand : BOOL;
 	fDriftRate : REAL := 0.02; // simulated passive temp drift per scan
 	tSimTimer : TON;
+	fbDamper : FB_Damper;
+	fbFan : FB_Fan;
+	fDamperPosition : REAL;
+	fFanSpeed : REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -37,7 +41,14 @@ ELSIF fZoneTemp > (fSetpoint + fDeadband) THEN
 ELSE
 	bHeatDemand := FALSE;
 	bCoolDemand := FALSE;
-END_IF]]></ST>
+END_IF
+
+// Damper and fan control
+fbDamper(bCoolDemand := bCoolDemand);
+fDamperPosition := fbDamper.fDamperPosition;
+
+fbFan(bHeatDemand := bHeatDemand, bCoolDemand := bCoolDemand);
+fFanSpeed := fbFan.fFanSpeed;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

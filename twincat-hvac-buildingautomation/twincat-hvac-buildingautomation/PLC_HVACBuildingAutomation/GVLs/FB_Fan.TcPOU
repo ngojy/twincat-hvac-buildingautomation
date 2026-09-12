@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Fan" Id="{020eae90-fb53-49d2-a2f0-6d6a601ecd1a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Fan
+VAR_INPUT
+	bHeatDemand : BOOL;
+	bCoolDemand : BOOL;
+END_VAR
+VAR_OUTPUT
+	fFanSpeed : REAL; // 0.0 = off, 100.0 = full speed
+END_VAR
+VAR
+	fRampRate : REAL := 10.0;
+	fTargetSpeed : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Fan runs whenever there's active heating or cooling demand
+IF bHeatDemand OR bCoolDemand THEN
+	fTargetSpeed := 75.0; // normal operating speed
+ELSE
+	fTargetSpeed := 0.0;
+END_IF
+
+IF fFanSpeed < fTargetSpeed THEN
+	fFanSpeed := fFanSpeed + fRampRate;
+	IF fFanSpeed > fTargetSpeed THEN
+		fFanSpeed := fTargetSpeed;
+	END_IF
+ELSIF fFanSpeed > fTargetSpeed THEN
+	fFanSpeed := fFanSpeed - fRampRate;
+	IF fFanSpeed < fTargetSpeed THEN
+		fFanSpeed := fTargetSpeed;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

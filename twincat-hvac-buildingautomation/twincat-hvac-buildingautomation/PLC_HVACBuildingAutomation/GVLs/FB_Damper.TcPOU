@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Damper" Id="{c2069241-9f3a-442b-9cbc-5bf3dd8c5353}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Damper
+VAR_INPUT
+	bCoolDemand : BOOL;
+END_VAR
+VAR_OUTPUT
+	fDamperPosition : REAL; // 0.0 = closed, 100.0 = fully open
+END_VAR
+VAR
+	fRampRate : REAL := 5.0; // % change per scan cycle (simulated actuator speed)
+	fTargetPosition : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Cooling calls for outside air, damper opens; otherwise closes
+IF bCoolDemand THEN
+	fTargetPosition := 100.0;
+ELSE
+	fTargetPosition := 0.0;
+END_IF
+
+// Simulate gradual actuator movement
+IF fDamperPosition < fTargetPosition THEN
+	fDamperPosition := fDamperPosition + fRampRate;
+	IF fDamperPosition > fTargetPosition THEN
+		fDamperPosition := fTargetPosition;
+	END_IF
+ELSIF fDamperPosition > fTargetPosition THEN
+	fDamperPosition := fDamperPosition - fRampRate;
+	IF fDamperPosition < fTargetPosition THEN
+		fDamperPosition := fTargetPosition;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
