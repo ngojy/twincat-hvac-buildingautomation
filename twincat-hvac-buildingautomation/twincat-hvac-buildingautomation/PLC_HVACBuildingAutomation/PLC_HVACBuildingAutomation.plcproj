@@ -18,6 +18,9 @@
     <LibraryReferences>{8ffb4e33-0ee2-4e03-9546-6b7debf88f60}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\FB_AlarmMonitor.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\FB_Damper.TcPOU">
       <SubType>Code</SubType>
     </Compile>

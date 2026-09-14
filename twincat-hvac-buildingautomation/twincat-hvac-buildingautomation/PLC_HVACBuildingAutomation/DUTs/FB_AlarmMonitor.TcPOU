@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_AlarmMonitor" Id="{80d0850c-b291-4efe-b323-e263a462c4df}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AlarmMonitor
+VAR_INPUT
+	fZoneTemp : REAL;
+	fHighLimit : REAL := 85.0;
+	fLowLimit : REAL := 55.0;
+	bSensorFault : BOOL; // simulated fault input
+	bAckButton : BOOL; // operator acknowledge/reset
+END_VAR
+VAR_OUTPUT
+	bHighTempAlarm : BOOL;
+	bLowTempAlarm : BOOL;
+	bFaultAlarm : BOOL;
+	bAnyAlarmActive : BOOL;
+END_VAR
+VAR
+	rtrigAck : R_TRIG;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[rtrigAck(CLK := bAckButton);
+
+// High temp alarm latches on, clears only on ack one condition is gone
+IF fZoneTemp > fHighLimit THEN
+	bHighTempAlarm := TRUE;
+ELSIF rtrigAck.Q AND fZoneTemp <= fHighLimit THEN
+	bHighTempAlarm := FALSE;
+END_IF
+
+// Low temp alarm, same pattern
+IF fZoneTemp < fLowLimit THEN
+	bLowTempAlarm := TRUE;
+ELSIF rtrigAck.Q AND fZoneTemp >= fLowLimit THEN
+	bLowTempAlarm := FALSE;
+END_IF
+
+// Sensor fault alarm, same latch/ack pattern
+IF bSensorFault THEN
+	bFaultAlarm := TRUE;
+ELSIF rtrigAck.Q AND NOT bSensorFault THEN
+	bFaultAlarm := FALSE;
+END_IF
+
+bAnyAlarmActive := bHighTempAlarm OR bLowTempAlarm OR bFaultAlarm;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

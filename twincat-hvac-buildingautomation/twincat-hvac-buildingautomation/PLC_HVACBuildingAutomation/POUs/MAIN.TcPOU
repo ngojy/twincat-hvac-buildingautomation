@@ -14,6 +14,13 @@ VAR
 	fbFan : FB_Fan;
 	fDamperPosition : REAL;
 	fFanSpeed : REAL;
+	fbAlarmMonitor : FB_AlarmMonitor;
+	bSensorFault : BOOL; // manual test input
+	bAckButton : BOOL; // also manual test input
+	bHighTempAlarm : BOOL;
+	bLowTempAlarm : BOOL;
+	bFaultAlarm : BOOL;
+	bAnyAlarmActive : BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -48,7 +55,18 @@ fbDamper(bCoolDemand := bCoolDemand);
 fDamperPosition := fbDamper.fDamperPosition;
 
 fbFan(bHeatDemand := bHeatDemand, bCoolDemand := bCoolDemand);
-fFanSpeed := fbFan.fFanSpeed;]]></ST>
+fFanSpeed := fbFan.fFanSpeed;
+
+// Alarm Monitoring
+fbAlarmMonitor(
+	fZoneTemp := fZoneTemp,
+	bSensorFault := bSensorFault,
+	bAckButton := bAckButton
+);
+bHighTempAlarm := fbAlarmMonitor.bHighTempAlarm;
+bLowTempAlarm := fbAlarmMonitor.bLowTempAlarm;
+bFaultAlarm := fbAlarmMonitor.bFaultAlarm;
+bAnyAlarmActive := fbAlarmMonitor.bAnyAlarmActive;	]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
