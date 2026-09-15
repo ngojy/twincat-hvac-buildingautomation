@@ -3,23 +3,33 @@
   <POU Name="MAIN" Id="{f31c5fc9-3dfd-4f4c-88a0-a72da0f0bca2}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	{attribute 'OPC.UA.DA' := '1'}
 	fZoneTemp : REAL := 70.0;  // simulated zone temp, F, starting value
+	{attribute 'OPC.UA.DA' := '1'}
 	fSetpoint : REAL := 72.0; // desired temp
 	fDeadBand : REAL := 1.0;   // +/- tolerance before acting
+	{attribute 'OPC.UA.DA' := '1'}
 	bHeatDemand : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
 	bCoolDemand : BOOL;
 	fDriftRate : REAL := 0.02; // simulated passive temp drift per scan
 	tSimTimer : TON;
 	fbDamper : FB_Damper;
 	fbFan : FB_Fan;
+	{attribute 'OPC.UA.DA' := '1'}
 	fDamperPosition : REAL;
+	{attribute 'OPC.UA.DA' := '1'}
 	fFanSpeed : REAL;
 	fbAlarmMonitor : FB_AlarmMonitor;
 	bSensorFault : BOOL; // manual test input
 	bAckButton : BOOL; // also manual test input
+	{attribute 'OPC.UA.DA' := '1'}
 	bHighTempAlarm : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
 	bLowTempAlarm : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
 	bFaultAlarm : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
 	bAnyAlarmActive : BOOL;
 END_VAR
 ]]></Declaration>

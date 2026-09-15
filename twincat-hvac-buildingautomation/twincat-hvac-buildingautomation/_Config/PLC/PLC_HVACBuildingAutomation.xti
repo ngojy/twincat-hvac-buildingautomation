@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.26" ClassName="CNestedPlcProjDef">
 	<Project GUID="{93E60A6F-AB63-40F1-A0CE-3BBC355E73FB}" Name="PLC_HVACBuildingAutomation" PrjFilePath="..\..\PLC_HVACBuildingAutomation\PLC_HVACBuildingAutomation.plcproj" TmcFilePath="..\..\PLC_HVACBuildingAutomation\PLC_HVACBuildingAutomation.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{AC4BAA25-3B84-3B0C-B9AC-85776EFCEDE5}" TmcPath="PLC_HVACBuildingAutomation\PLC_HVACBuildingAutomation.tmc">
+		<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{132AEC62-1EC8-7832-EC23-E38551E5303E}" TmcPath="PLC_HVACBuildingAutomation\PLC_HVACBuildingAutomation.tmc">
 			<Name>PLC_HVACBuildingAutomation Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 			<Contexts>
