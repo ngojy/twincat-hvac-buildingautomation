@@ -14,4 +14,10 @@ Stage 3: Alarms and Fault Detection
 
 Adds process alarm monitoring to the HVAC control loop via a dedicated FB_AlarmMonitor function block, detecting high and low temperature excursions and simulated sensor faults. Alarms latch on when a condition occurs and remain active until an operator acknowledges the fault, even if the underlying condition has since cleared, standard alarm management practice that ensures transient issues aren't silently missed. It reuses the latched fault/reset pattern first developed for the e-stop logic in the earlier safety=interlock project, applied here to process-level alarming rather than safe-critical shutdown.
 
-Skills demonstrated: Alarm latching and operator-acknowledge logic, rising-edge detection (R_TRIG) for acknowledge/reset actions, reapplying a proven safety-interlock pattern to a new domain (process alarms), function block composition within a growing cumulative control system.
+Skills demonstrated: Alarm latching and operator-acknowledge logic, rising-edge detection (R_TRIG) for acknowledge/reset actions, reapplying a proven safety-interlock pattern to a new domain (process alarms), function block composition within a growing cumulative control system
+
+Stage 4: OPU-UA Exposure
+
+Exposes the HVAC control system's core process variables via OPC-AU, using the OPC.UA.DA attribute pragma on MAIN's key I/O: zone temperature, setpoint, heat/cool demand, damper position, fan speed, and all four alarm states. Configured via a TwinCat Connectivity project with a Data Access Device pointed at the PLC's TMC symbol file, verified end-to-end using the TwinCat OPC UA Sample Client.
+
+Skills demonstrated: OPC-UA symbol exposure across a full variable set, Data Access Device and Connectivity project configuration, end-to-end verification of PLC-to-external-client data flow
