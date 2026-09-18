@@ -4,11 +4,13 @@ The first stage of the HVAC building automation control system, simulates a zone
 
 Skills demonstrated: Analog (REAL) variable simulation, setpoint/deadband control logic, timer-based simulation loops (TON), foundational logic for the multi-stage HVAC system that follows (damper/fan control, alarms, OPC-UA exposure)
 
+
 Stage 2: Damper and Fan Control
 
 Extends Stage 1's setpoint control loop with proportional actuator control. Added two function blocks, FB_Damper and FB_Fan, translate binary heat/cool demand signals into simulated analog actuator positions (0-100%), ramping gradually rather than snapping instantly, to represent realistic physical actuator movement. The damper opens for outside air cooling demand, and the fan runs at operating speed whenever heating or cooling is active, both ramping down to idle when demand clears.
 
 Skills demonstrated: Function block design for analog/proportional actuator control, simulated ramp-rate behavior, modular integration of multiple function blocks into a single coordinated control loop
+
 
 Stage 3: Alarms and Fault Detection
 
@@ -16,8 +18,18 @@ Adds process alarm monitoring to the HVAC control loop via a dedicated FB_AlarmM
 
 Skills demonstrated: Alarm latching and operator-acknowledge logic, rising-edge detection (R_TRIG) for acknowledge/reset actions, reapplying a proven safety-interlock pattern to a new domain (process alarms), function block composition within a growing cumulative control system
 
+
 Stage 4: OPU-UA Exposure
 
 Exposes the HVAC control system's core process variables via OPC-AU, using the OPC.UA.DA attribute pragma on MAIN's key I/O: zone temperature, setpoint, heat/cool demand, damper position, fan speed, and all four alarm states. Configured via a TwinCat Connectivity project with a Data Access Device pointed at the PLC's TMC symbol file, verified end-to-end using the TwinCat OPC UA Sample Client.
 
 Skills demonstrated: OPC-UA symbol exposure across a full variable set, Data Access Device and Connectivity project configuration, end-to-end verification of PLC-to-external-client data flow
+
+
+Stage 5: Ignition SCADA Dashboard
+
+Tooling: Ignition Standard 8.3.9 (Perspective module), connected to the TwinCat OPC-UA server from Stage 4
+
+A live operator-facing HMI dashboard built in Ignition Perspective, displaying real-time HVAC system state pulled directly from the TwinCat PLC via OPC-UA. The dashboaord includes live zone temperature and setpoint readouts, gauge displays for damper position and fan speed, color-coded heat/cool demand indicators, a color-coded alarm status banner, a built-in Alarm Status Table showing active/cleared alarm history, and an operator acknowledge button that writes back to the PLC's alarm-reset logic.
+
+Skills demonstrated: SCADA/HMI dashboard design in Ingnition Perspective, OPC-UA client configuration and authenticated connection setup, tag binding (direct and expression-based), Ignition's native alarm system (per-tag alarm configuration, priority levels, Alarm Status Table, multi-provider tag source filtering), bidirectional PLC-to-HMI data flow (operator actions in Ignition writing back to PLC logic via system.tag.writeBlocking)
