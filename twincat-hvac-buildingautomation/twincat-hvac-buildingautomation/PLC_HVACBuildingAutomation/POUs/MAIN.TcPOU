@@ -21,7 +21,9 @@ VAR
 	{attribute 'OPC.UA.DA' := '1'}
 	fFanSpeed : REAL;
 	fbAlarmMonitor : FB_AlarmMonitor;
+	{attribute 'OPC.UA.DA' := '1'}
 	bSensorFault : BOOL; // manual test input
+	{attribute 'OPC.UA.DA' := '1'}
 	bAckButton : BOOL; // also manual test input
 	{attribute 'OPC.UA.DA' := '1'}
 	bHighTempAlarm : BOOL;
